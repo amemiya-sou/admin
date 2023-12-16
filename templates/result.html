@@ -38,7 +38,7 @@
                 </form>
                 </p>
                 <div style="color: red;">*は必須項目です。</div>
-                <form action="https://amemiyapoke.lolitapunk.jp/test/html/save_by_admin.php" method="post">
+                <form action="https://amemiyapoke.lolitapunk.jp/test/html/save_to_database.php" method="post">
                     <input type="text" id="approval" name="approval" style="display: none;" value="true">
                     <label for="url">ルール<span style="color: red;">*</span>：</label>
                     <label><input type="checkbox" name="rule[]" class="check" value="single" id="single">シングル</label>
@@ -61,7 +61,43 @@
                         <option value="season1">シーズン1</option>
                     </select><br>
                     <label for="url">記事URL<span style="color: red;">*</span>：</label>
-                    <input type="text" id="url" name="url" autocomplete="off"><br>
+                    <input type="text" id="url" name="url" autocomplete="off" onblur="getTitleFromUrl()"><br>
+                    <label for="title">タイトル<span style="color: red;">*</span>：</label>
+                    <textarea id="title" name="title" autocomplete="off"></textarea><br>
+                    <script>
+                        function adjustTitleWidth() {
+                            var titleElement = document.getElementById('title');
+                            var nameElement = document.getElementById('url');
+                            titleElement.style.width = nameElement.offsetWidth - 6 + 'px';
+                        }
+                        window.onload = adjustTitleWidth;
+                        window.addEventListener('resize', adjustTitleWidth);
+
+                        function getTitleFromUrl() {
+                            var urlInput = document.getElementById('url');
+                            var url = urlInput.value;
+                            if (url.trim() === "") {
+                                alert("Please enter a valid URL");
+                                return;
+                            }
+                            fetch(url)
+                                .then(response => response.text())
+                                .then(html => {
+                                    var tempDiv = document.createElement('div');
+                                    tempDiv.innerHTML = html;
+                                    var title = tempDiv.querySelector('title');
+                                    if (title) {
+                                        document.getElementById('title').value = title.innerText;
+                                    } else {
+                                        alert("Title not found on the page");
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error fetching the URL:', error);
+                                    alert("Error fetching the URL");
+                                });
+                        }
+                    </script>
                     <label for="name">制作者名<span style="color: red;">*</span>：</label>
                     <input type="text" id="name" name="name" autocomplete="off"><br>
                     <label for="rank">最終順位<span style="color: red;">*</span>：</label>
