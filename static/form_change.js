@@ -1,3 +1,33 @@
+function adjustTitleWidth() {
+    var titleElement = document.getElementById('title');
+    var nameElement = document.getElementById('url');
+    titleElement.style.width = nameElement.offsetWidth - 6 + 'px';
+}
+window.onload = adjustTitleWidth;
+document.addEventListener('DOMContentLoaded', adjustTitleWidth);
+window.addEventListener('resize', adjustTitleWidth);
+
+function getTitleFromUrl() {
+    var urlInput = document.getElementById('url');
+    var url = urlInput.value;
+    fetch(url)
+        .then(response => response.text())
+        .then(html => {
+            var tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            var title = tempDiv.querySelector('title');
+            if (title) {
+                document.getElementById('title').value = title.innerText;
+            } else {
+                alert("Title not found on the page");
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching the URL:', error);
+            alert("Error fetching the URL");
+        });
+}
+
 //pokemon1～6の内容をチェック
 window.onload = function () {
     for (var i = 1; i <= 6; i++) {
