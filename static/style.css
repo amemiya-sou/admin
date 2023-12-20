@@ -118,7 +118,7 @@ h1 {
 }
 
 .nina {
-  margin: 5px;
+  margin: 5px 0px;
 }
 
 @media (max-width: 715px) {
@@ -211,8 +211,4 @@ h2 {
   font-family: inherit;
   vertical-align: top;
   height: 75px;
-}
-
-.text-with-wave {
-  text-decoration: underline wavy red 1px;
 }

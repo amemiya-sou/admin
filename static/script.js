@@ -35,26 +35,40 @@ window.onload = adjustTitleWidth;
 document.addEventListener('DOMContentLoaded', adjustTitleWidth);
 window.addEventListener('resize', adjustTitleWidth);
 
-function getTitleFromUrl() {
+function fetchTitle() {
     var urlInput = document.getElementById('url');
+    var titleTextarea = document.getElementById('title');
+  
     var url = urlInput.value;
+  
+    if (!url) {
+      return;
+    }
+  
+    // Fetch the URL's HTML content using an HTTP request
     fetch(url)
-        .then(response => response.text())
-        .then(html => {
-            var tempDiv = document.createElement('div');
-            tempDiv.innerHTML = html;
-            var title = tempDiv.querySelector('title');
-            if (title) {
-                document.getElementById('title').value = title.innerText;
-            } else {
-                alert("Title not found on the page");
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching the URL:', error);
-            alert("Error fetching the URL");
-        });
-}
+      .then(response => response.text())
+      .then(data => {
+        // Create a temporary div element to parse the HTML content
+        var tempDiv = document.createElement('div');
+        tempDiv.innerHTML = data;
+  
+        // Find the title tag and extract its content
+        var titleElement = tempDiv.querySelector('title');
+        var title = titleElement ? titleElement.innerText : '';
+  
+        // Remove content after the last occurrence of "-"
+        var lastIndex = title.lastIndexOf('-');
+        var truncatedTitle = lastIndex !== -1 ? title.slice(0, lastIndex) : title;
+  
+        // Update the textarea with the truncated title
+        titleTextarea.value = truncatedTitle.trim();
+      })
+      .catch(error => {
+        console.error('Error fetching URL:', error);
+        titleTextarea.value = '';
+      });
+  }
 
 $(function () {
     $('.check').on('click', function () {
