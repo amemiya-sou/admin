@@ -11,6 +11,121 @@ function showLoading() {
     document.getElementById('loading-overlay').style.display = 'flex';
 }
 
+var seasonSelect = document.getElementById("season");
+var rankingInput = document.getElementById("ranking");
+
+function updateRankingStatus() {
+    if (seasonSelect.value !== "") {
+        rankingInput.disabled = false;
+        rankingInput.classList.remove("disabled");
+    } else {
+        rankingInput.disabled = true;
+        rankingInput.value = "";
+        rankingInput.classList.add("disabled");
+    }
+}
+updateRankingStatus();
+seasonSelect.addEventListener("change", updateRankingStatus);
+
+document.addEventListener("DOMContentLoaded", function () {
+    var seasonSelect = document.getElementById("season");
+    var regulationSelect = document.getElementById("regulation");
+    var eventSelect = document.getElementById("event");
+    seasonSelect.addEventListener("change", function () {
+        eventSelect.selectedIndex = 0;
+        updateRankingStatus();
+    });
+    regulationSelect.addEventListener("change", function () {
+        eventSelect.selectedIndex = 0;
+        updateRankingStatus();
+    });
+    eventSelect.addEventListener("change", function () {
+        seasonSelect.selectedIndex = 0;
+        regulationSelect.selectedIndex = 0;
+        updateRankingStatus();
+    });
+});
+
+document.getElementById('season').addEventListener('change', function () {
+    var seasonValue = this.value;
+    var regulationElement = document.getElementById('regulation');
+    var seasonMap = {
+        'season1': 'A', 'season2': 'A',
+        'season3': 'B', 'season4': 'B',
+        'season5': 'C', 'season6': 'C', 'season7': 'C',
+        'season8': 'D', 'season9': 'D', 'season10': 'D',
+        'season11': 'E', 'season12': 'E', 'season13': 'E',
+        'season14': 'F'
+    };
+    if (seasonValue != '') {
+        regulationElement.value = seasonMap[seasonValue] || '';
+    }
+});
+
+document.getElementById('regulation').addEventListener('change', function () {
+    var regulationValue = this.value;
+    var seasonElement = document.getElementById('season');
+    var seasonMap = {
+        'A': ['season1', 'season2'],
+        'B': ['season3', 'season4'],
+        'C': ['season5', 'season6', 'season7'],
+        'D': ['season8', 'season9', 'season10'],
+        'E': ['season11', 'season12', 'season13'],
+        'F': ['season14']
+    };
+    if (seasonMap[regulationValue] && seasonMap[regulationValue].indexOf(seasonElement.value) === -1) {
+        seasonElement.value = "";
+    }
+});
+
+document.getElementById('generateButton').addEventListener('click', function () {
+    event.preventDefault();
+    let url = document.getElementById('url').value;
+
+    if (!url) {
+        document.getElementById('title').value = "";
+        return;
+    }
+
+    fetch(url)
+        .then(response => response.text())
+        .then(html => {
+            let matches = html.match(/<title>(.*?)<\/title>/i);
+            let title = matches && matches[1] ? matches[1] : 'タイトルなし';
+            if (url.includes('hatenablog.com')) {
+                title = title.replace(/\s*-\s*[^-]*$/, '');
+            }
+            document.getElementById('title').value = title;
+        })
+        .catch(error => {
+            alert("このURLからは生成できません。");
+        });
+});
+document.getElementById('formatButton').addEventListener('click', function () {
+    event.preventDefault();
+
+    let title;
+    rule = document.getElementById('rule').value;
+    if (rule == "single") {
+        rule = "シングル";
+    } else if (rule == "double") {
+        rule = "ダブル";
+    }
+
+    let season = document.getElementById('season').value;
+    if (season != "") {
+        season = "シーズン" + season.replace("season", "");
+    }
+
+    let ranking = document.getElementById('ranking').value;
+    if (ranking != "") {
+        ranking = "最終" + ranking + "位";
+    }
+
+    title = "【ポケモンSV" + rule + "】" + season + ranking;
+    document.getElementById('title').value = title;
+});
+
 //半角数字しか入力させない
 document.addEventListener('DOMContentLoaded', function () {
     var rankInput = document.getElementById('ranking');

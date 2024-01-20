@@ -422,17 +422,17 @@ def compare_images(img1, img2, roi_percent):
 
 @app.route('/')
 def index():
-    return render_template('index.php')
+    return render_template('index.html')
 
 
 @app.route('/', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
-        return render_template('index.php', error='ファイルが見つかりません')
+        return render_template('index.html', error='ファイルが見つかりません')
 
     file = request.files['file']
     if file.filename == '':
-        return render_template('index.php', error='選択されたファイルがありません')
+        return render_template('index.html', error='選択されたファイルがありません')
 
     if file:
         # 画像をBASE64形式に変換
@@ -509,7 +509,7 @@ def upload_file():
         # どれかの類似度が一定以上ならば結果のテンプレートにリダイレクト
         if any(messages):
             return render_template(
-                "result.php",
+                "result.html",
                 img_base64=img_base64,
                 texts=texts,
                 closest_words=closest_words,

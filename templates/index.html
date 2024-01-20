@@ -3,17 +3,19 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
-    <title>ダブル構築まとめ屋さん。</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='animation.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>構築まとめ屋。</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/destyle.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/header.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/animation.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="{{ url_for('static', filename='autocomplete_poke.js') }}"></script>
-    <script src="{{ url_for('static', filename='autocomplete_item.js') }}"></script>
-    <script src="{{ url_for('static', filename='autocomplete_tera.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/autocomplete_poke.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/autocomplete_item.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/autocomplete_tera.js') }}"></script>
 </head>
 
 <body>
@@ -22,95 +24,163 @@
         xmlns="http://www.w3.org/2000/svg" style="display: none;">
         <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
     </svg>
-    <header>
-        <h1>管理者用ページ</h1>
-    </header>
-
-    <div class="tarts-container">
-        <div class="tart">
-            <h2>構築収集フォーム</h2>
-            <div class="package">
-                <div id="form">
-                    <p>このページでは各シーズンの構築記事を収集しています。シーズン途中の構築やランクバトル以外の構築は「その他のフォーム」から投稿してください。</p>
-                    <p>ここは管理者用の投稿ページです。承認ページを経由せずに直接投稿されるため入力内容に気を付けてください。
-                    <form method="post" enctype="multipart/form-data" id="upload-form">
-                        <input type="file" name="file" accept=".png, .jpg, .jpeg" id="file-input">
-                    </form>
-                    <script>
-                        document.getElementById('file-input').addEventListener('change', function () {
-                            showLoading();
-                        });
-                        function showLoading() {
-                            document.getElementById('overlay').style.display = 'flex';
-                            document.getElementById('loading-overlay').style.display = 'flex';
-                        }
-                    </script>
-                    </p>
-                    <div style="color: red;">*は必須項目です。</div>
-                    <form action="https://amemiyapoke.lolitapunk.jp/test/html/database/save_by_admin.php" method="post">
-                        <input type="text" id="approval" name="approval" style="display: none;" value="true">
-                        <label for="rule">ルール<span style="color: red;">*</span>：</label>
-                        <label><input type="checkbox" name="rule[]" class="check" value="single"
-                                id="single" onclick="return false;">シングル</label>
-                        <label><input type="checkbox" name="rule[]" class="check" value="double"
-                                id="double">ダブル</label><br>
-                        <label for="season">シーズン<span style="color: red;">*</span>：</label>
-                        <select name="season" id="season">
-                            <option value="">-----</option>
-                            <option value="season13">シーズン13</option>
-                            <option value="season12">シーズン12</option>
-                            <option value="season11">シーズン11</option>
-                            <option value="season10">シーズン10</option>
-                            <option value="season9">シーズン9</option>
-                            <option value="season8">シーズン8</option>
-                            <option value="season7">シーズン7</option>
-                            <option value="season6">シーズン6</option>
-                            <option value="season5">シーズン5</option>
-                            <option value="season4">シーズン4</option>
-                            <option value="season3">シーズン3</option>
-                            <option value="season2">シーズン2</option>
-                            <option value="season1">シーズン1</option>
-                        </select><br>
-                        <label for="url">記事URL<span style="color: red;">*</span>：</label>
-                        <input type="text" id="url" name="url" autocomplete="off" oninput="fetchTitle()"><br>
-                        <label for="title">タイトル<span style="color: red;">*</span>：</label>
-                        <textarea id="title" name="title" autocomplete="off"></textarea><br>
-                        <label for="name">制作者名<span style="color: red;">*</span>：</label>
-                        <input type="text" id="name" name="name" autocomplete="off"><br>
-                        <label for="rank">最終順位<span style="color: red;">*</span>：</label>
-                        <input type="text" id="rank" name="rank" autocomplete="off">
-                        <script>
-                            document.addEventListener('DOMContentLoaded', function () {
-                                var rankInput = document.getElementById('rank');
-                                rankInput.addEventListener('input', function (event) {
-                                    var inputValue = event.target.value;
-                                    var convertedValue = inputValue.replace(/[０-９]/g, function (s) {
-                                        return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
-                                    });
-                                    rankInput.value = convertedValue;
-                                });
-                            });
-                        </script>
-                        <label>位</label><br>
-                        <script>
-                            for (let i = 1; i <= 6; i++) {
-                                document.write(`
-                                <label for="pokemon${i}">ポケモン${(i === 1) ? '１' : (i === 2) ? '２' : (i === 3) ? '３' : (i === 4) ? '４' : (i === 5) ? '５' : (i === 6) ? '６' : ''}：</label>
-                        <input type="search" id="pokemon${i}" name="pokemon${i}" autocomplete="off" ${(i === 1) ? 'placeholder="ポケモン名"' : ''}><br>
-                        <label style="visibility: hidden;">ポケモン${'１'}：</label>
-                        <input type="search" id="item${i}" name="item${i}" autocomplete="off" ${(i === 1) ? 'placeholder="もちもの"' : ''}><br>
-                        <label style="visibility: hidden;">ポケモン${'１'}：</label>
-                        <input type="search" id="tera${i}" name="tera${i}" autocomplete="off" ${(i === 1) ? 'placeholder="テラスタル"' : ''}><br>
-                      `);
-                            }
-                        </script>
-                        <input type="submit" value="管理者として投稿" class="botan">
-                    </form>
-                </div>
-            </div>
-        </div>
+    <div id="top">
+        <header>
+            <a href="https://matomeyapoke.com/">
+                <img src="{{ url_for('static', filename='img/管理用ページ。.png') }}" id="header-img">
+            </a>
+            <button id="menuButton"><i class="fas fa-bars"></i></button>
+        </header>
     </div>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    <div class="content">
+        <div>管理者用の投稿フォームです。入力した内容はそのままサイトに反映されるため慎重に入力してください。</div>
+
+        <div>
+            <form method="post" enctype="multipart/form-data" id="upload-form">
+                <input type="file" name="file" id="file-input" accept=".png, .jpg, .jpeg">
+            </form>
+        </div>
+
+        <form id="party_form" action="https://matomeyapoke.com/save_to_database.php" method="post">
+
+            <input type="text" id="approval" name="approval" style="display: none;" value="3a7G9b2K">
+
+            <div>
+                <label for="rule">ルール</label>
+                <select name="rule" id="rule">
+                    <option value="">-----</option>
+                    <option value="single">シングル</option>
+                    <option value="double">ダブル</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="season">シーズン</label>
+                <select name="season" id="season">
+                    <option value="">-----</option>
+                    <script src="{{ url_for('static', filename='js/season.js') }}"></script>
+                </select>
+            </div>
+
+            <div>
+                <label for="regulation">レギュレーション</label>
+                <select name="regulation" id="regulation">
+                    <option value="">-----</option>
+                    <option value="F">レギュF</option>
+                    <option value="E">レギュE</option>
+                    <option value="D">レギュD</option>
+                    <option value="C">レギュC</option>
+                    <option value="B">レギュB</option>
+                    <option value="A">レギュA</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="event">公式大会など</label>
+                <select name="event" id="event">
+                    <option value="">-----</option>
+                    <option value="F">その他</option>
+                    <option value="E">ブルーベリープロローグ</option>
+                    <option value="D">竜王戦2024予選</option>
+                    <option value="C">トリックマジック</option>
+                    <option value="B">キタカミプロローグ</option>
+                    <option value="A">パルデアプロローグ</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="ranking">最終順位</label><br>
+                <input type="search" id="ranking" name="rank" autocomplete="off" disabled>
+                <label for="ranking">位</label>
+            </div>
+
+            <div>
+                <label for="url">記事URL</label>
+                <input type="search" id="url" name="url" autocomplete="off">
+            </div>
+
+            <div class="generate-container">
+                <button id="generateButton">URLからタイトル生成</button>
+                <button id="formatButton">タイトルフォーマット生成</button>
+            </div>
+
+            <div>
+                <label for="title">タイトル</label>
+                <textarea id="title" name="title" autocomplete="off"></textarea>
+            </div>
+
+            <div>
+                <label for="name">制作者名</label>
+                <input type="search" id="name" name="name" autocomplete="off">
+            </div>
+
+            <label for="pokemon1">ポケモン１</label>
+            <div class="input-group">
+                <input type="search" id="pokemon1" class="poke_input pokemon_input" name="pokemon1" autocomplete="off"
+                    placeholder="ポケモン名">
+                <input type="search" id="item1" class="tool_input item_input" name="item1" autocomplete="off"
+                    placeholder="もちもの">
+                <input type="search" id="tera1" class="teras_input tera_input" name="tera1" autocomplete="off"
+                    placeholder="テラスタル">
+            </div>
+
+            <label for="pokemon2">ポケモン２</label>
+            <div class="input-group">
+                <input type="search" id="pokemon2" class="poke_input pokemon_input" name="pokemon2" autocomplete="off"
+                    placeholder="ポケモン名">
+                <input type="search" id="item2" class="tool_input item_input" name="item2" autocomplete="off"
+                    placeholder="もちもの">
+                <input type="search" id="tera2" class="teras_input tera_input" name="tera2" autocomplete="off"
+                    placeholder="テラスタル">
+            </div>
+
+            <label for="pokemon3">ポケモン３</label>
+            <div class="input-group">
+                <input type="search" id="pokemon3" class="poke_input pokemon_input" name="pokemon3" autocomplete="off"
+                    placeholder="ポケモン名">
+                <input type="search" id="item3" class="tool_input item_input" name="item3" autocomplete="off"
+                    placeholder="もちもの">
+                <input type="search" id="tera3" class="teras_input tera_input" name="tera3" autocomplete="off"
+                    placeholder="テラスタル">
+            </div>
+
+            <label for="pokemon4">ポケモン４</label>
+            <div class="input-group">
+                <input type="search" id="pokemon4" class="poke_input pokemon_input" name="pokemon4" autocomplete="off"
+                    placeholder="ポケモン名">
+                <input type="search" id="item4" class="tool_input item_input" name="item4" autocomplete="off"
+                    placeholder="もちもの">
+                <input type="search" id="tera4" class="teras_input tera_input" name="tera4" autocomplete="off"
+                    placeholder="テラスタル">
+            </div>
+
+            <label for="pokemon5">ポケモン５</label>
+            <div class="input-group">
+                <input type="search" id="pokemon5" class="poke_input pokemon_input" name="pokemon5" autocomplete="off"
+                    placeholder="ポケモン名">
+                <input type="search" id="item5" class="tool_input item_input" name="item5" autocomplete="off"
+                    placeholder="もちもの">
+                <input type="search" id="tera5" class="teras_input tera_input" name="tera5" autocomplete="off"
+                    placeholder="テラスタル">
+            </div>
+
+            <label for="pokemon6">ポケモン６</label>
+            <div class="input-group">
+                <input type="search" id="pokemon6" class="poke_input pokemon_input" name="pokemon6" autocomplete="off"
+                    placeholder="ポケモン名">
+                <input type="search" id="item6" class="tool_input item_input" name="item6" autocomplete="off"
+                    placeholder="もちもの">
+                <input type="search" id="tera6" class="teras_input tera_input" name="tera6" autocomplete="off"
+                    placeholder="テラスタル">
+            </div>
+
+
+            <input type="submit" id="post" value="構築を投稿する">
+
+        </form>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 
 </html>
