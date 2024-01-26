@@ -98,7 +98,13 @@ document.getElementById('generateButton').addEventListener('click', function () 
             document.getElementById('title').value = title;
         })
         .catch(error => {
-            alert("このURLからは生成できません。");
+            if (url.includes('note.com')) {
+                alert("noteのURLからは生成できません。コピペで貼り付けてください。");
+            } else if (url.includes('youtube.com')) {
+                alert("YouTubeのURLからは生成できません。コピペで貼り付けてください。");
+            } else {
+                alert("このURLからは生成できません。");
+            }
         });
 });
 document.getElementById('formatButton').addEventListener('click', function () {
@@ -136,28 +142,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         rankInput.value = convertedValue;
     });
-});
-
-//ハンバーガーメニュー
-document.addEventListener('DOMContentLoaded', function () {
-    const menuButton = document.getElementById('menuButton');
-    const hamburgerMenu = document.getElementById('hamburgerMenu');
-    const overlay = document.querySelector('.overlay');
-    const closeButton = document.getElementById('closeButton');
-    function closeMenu() {
-        hamburgerMenu.style.right = '-300px';
-        overlay.style.display = 'none';
-    }
-    menuButton.addEventListener('click', function () {
-        if (hamburgerMenu.style.right === '0px') {
-            closeMenu();
-        } else {
-            hamburgerMenu.style.right = '0px';
-            overlay.style.display = 'block';
-        }
-    });
-    closeButton.addEventListener('click', closeMenu);
-    overlay.addEventListener('click', closeMenu);
 });
 
 //フォルム候補の横幅を変える
@@ -206,9 +190,10 @@ $(document).ready(function () {
             flags.rule = true;
         }
 
-        var urlInput = $("#season");
-        if (urlInput.val() === "") {
-            alert("シーズンを選択してください。");
+        var urlInput = $("#regulation");
+        var urlInput2 = $("#event");
+        if ((urlInput.val() === "") && (urlInput2.val() === "")) {
+            alert("レギュレーションもしくは大会などを選択してください。");
             event.preventDefault();
         } else {
             flags.season = true;
@@ -231,8 +216,9 @@ $(document).ready(function () {
         }
 
         var urlInput = $("#ranking");
+        var urlInput2 = $("#season");
         var inputValue = urlInput.val();
-        if (inputValue.trim() === "") {
+        if ((urlInput2.val() != "") && (inputValue.trim() === "")) {
             alert("最終順位を入力してください。");
             event.preventDefault();
         } else {
