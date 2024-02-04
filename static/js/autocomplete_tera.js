@@ -37,7 +37,7 @@ $(function () {
         autoFocus: true,
         select: function (event, ui) {
             var currentInput = $(event.target);
-            var nextInput = currentInput.closest('.input-group').nextAll('.input-group').find('input[type="search"]').first();
+            var nextInput = currentInput.closest('.input-group').nextAll('.moves-group').find('input[type="search"]').first();
             if (nextInput.length > 0) {
                 nextInput.focus();
             }

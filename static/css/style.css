@@ -71,6 +71,49 @@ select option {
   font-size: 14px;
 }
 
+.moves-group {
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  border-radius: 5px;
+  margin-bottom: 12px;
+}
+
+.moves_admin1,
+.moves_admin2,
+.moves_admin3,
+.moves_admin4 {
+  flex: initial;
+  width: 50%;
+  outline: none;
+  height: 32px;
+  line-height: 30px;
+  box-sizing: border-box;
+  font-size: 14px;
+  padding: 0px 5px;
+  border: 1px solid #ccc;
+}
+
+.moves_admin1 {
+  border-right: none;
+  border-top-left-radius: 5px;
+}
+
+.moves_admin2 {
+  border-top-right-radius: 5px;
+}
+
+.moves_admin3 {
+  border-top: none;
+  border-right: none;
+  border-bottom-left-radius: 5px;
+}
+
+.moves_admin4 {
+  border-top: none;
+  border-bottom-right-radius: 5px;
+}
+
 #rule,
 #season,
 #url,

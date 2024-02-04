@@ -16,6 +16,7 @@
     <script src="{{ url_for('static', filename='js/autocomplete_poke.js') }}"></script>
     <script src="{{ url_for('static', filename='js/autocomplete_item.js') }}"></script>
     <script src="{{ url_for('static', filename='js/autocomplete_tera.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/autocomplete_move.js') }}"></script>
 </head>
 
 <body>
@@ -26,7 +27,7 @@
     </svg>
     <div id="top">
         <header>
-            <a href="https://matomeyapoke.com/">
+            <a href="https://matomeyapoke.com/php/admin/admin_page">
                 <img src="{{ url_for('static', filename='img/管理用ページ。.png') }}" id="header-img">
             </a>
             <button id="menuButton"><i class="fas fa-bars"></i></button>
@@ -121,6 +122,16 @@
                 <input type="search" id="tera1" class="teras_input tera_input" name="tera1" autocomplete="off"
                     placeholder="テラスタル">
             </div>
+            <div class='moves-group'>
+                <input type='search' id='move11' class='moves_admin1 move_input' name='move11' autocomplete='off'
+                    placeholder='わざ1'>
+                <input type='search' id='move12' class='moves_admin2 move_input' name='move12' autocomplete='off'
+                    placeholder='わざ2'>
+                <input type='search' id='move13' class='moves_admin3 move_input' name='move13' autocomplete='off'
+                    placeholder='わざ3'>
+                <input type='search' id='move14' class='moves_admin4 move_input' name='move14' autocomplete='off'
+                    placeholder='わざ4'>
+            </div>
 
             <label for="pokemon2">ポケモン２</label>
             <div class="input-group">
@@ -130,6 +141,16 @@
                     placeholder="もちもの">
                 <input type="search" id="tera2" class="teras_input tera_input" name="tera2" autocomplete="off"
                     placeholder="テラスタル">
+            </div>
+            <div class='moves-group'>
+                <input type='search' id='move21' class='moves_admin1 move_input' name='move21' autocomplete='off'
+                    placeholder='わざ1'>
+                <input type='search' id='move22' class='moves_admin2 move_input' name='move22' autocomplete='off'
+                    placeholder='わざ2'>
+                <input type='search' id='move23' class='moves_admin3 move_input' name='move23' autocomplete='off'
+                    placeholder='わざ3'>
+                <input type='search' id='move24' class='moves_admin4 move_input' name='move24' autocomplete='off'
+                    placeholder='わざ4'>
             </div>
 
             <label for="pokemon3">ポケモン３</label>
@@ -141,6 +162,16 @@
                 <input type="search" id="tera3" class="teras_input tera_input" name="tera3" autocomplete="off"
                     placeholder="テラスタル">
             </div>
+            <div class='moves-group'>
+                <input type='search' id='move31' class='moves_admin1 move_input' name='move31' autocomplete='off'
+                    placeholder='わざ1'>
+                <input type='search' id='move32' class='moves_admin2 move_input' name='move32' autocomplete='off'
+                    placeholder='わざ2'>
+                <input type='search' id='move33' class='moves_admin3 move_input' name='move33' autocomplete='off'
+                    placeholder='わざ3'>
+                <input type='search' id='move34' class='moves_admin4 move_input' name='move34' autocomplete='off'
+                    placeholder='わざ4'>
+            </div>
 
             <label for="pokemon4">ポケモン４</label>
             <div class="input-group">
@@ -150,6 +181,16 @@
                     placeholder="もちもの">
                 <input type="search" id="tera4" class="teras_input tera_input" name="tera4" autocomplete="off"
                     placeholder="テラスタル">
+            </div>
+            <div class='moves-group'>
+                <input type='search' id='move41' class='moves_admin1 move_input' name='move41' autocomplete='off'
+                    placeholder='わざ1'>
+                <input type='search' id='move42' class='moves_admin2 move_input' name='move42' autocomplete='off'
+                    placeholder='わざ2'>
+                <input type='search' id='move43' class='moves_admin3 move_input' name='move43' autocomplete='off'
+                    placeholder='わざ3'>
+                <input type='search' id='move44' class='moves_admin4 move_input' name='move44' autocomplete='off'
+                    placeholder='わざ4'>
             </div>
 
             <label for="pokemon5">ポケモン５</label>
@@ -161,6 +202,16 @@
                 <input type="search" id="tera5" class="teras_input tera_input" name="tera5" autocomplete="off"
                     placeholder="テラスタル">
             </div>
+            <div class='moves-group'>
+                <input type='search' id='move51' class='moves_admin1 move_input' name='move51' autocomplete='off'
+                    placeholder='わざ1'>
+                <input type='search' id='move52' class='moves_admin2 move_input' name='move52' autocomplete='off'
+                    placeholder='わざ2'>
+                <input type='search' id='move53' class='moves_admin3 move_input' name='move53' autocomplete='off'
+                    placeholder='わざ3'>
+                <input type='search' id='move54' class='moves_admin4 move_input' name='move54' autocomplete='off'
+                    placeholder='わざ4'>
+            </div>
 
             <label for="pokemon6">ポケモン６</label>
             <div class="input-group">
@@ -171,7 +222,16 @@
                 <input type="search" id="tera6" class="teras_input tera_input" name="tera6" autocomplete="off"
                     placeholder="テラスタル">
             </div>
-
+            <div class='moves-group'>
+                <input type='search' id='move61' class='moves_admin1 move_input' name='move61' autocomplete='off'
+                    placeholder='わざ1'>
+                <input type='search' id='move62' class='moves_admin2 move_input' name='move62' autocomplete='off'
+                    placeholder='わざ2'>
+                <input type='search' id='move63' class='moves_admin3 move_input' name='move63' autocomplete='off'
+                    placeholder='わざ3'>
+                <input type='search' id='move64' class='moves_admin4 move_input' name='move64' autocomplete='off'
+                    placeholder='わざ4'>
+            </div>
 
             <input type="submit" id="post" value="構築を投稿する">
 
